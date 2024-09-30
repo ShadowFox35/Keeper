@@ -1,7 +1,6 @@
 library core;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:equatable/equatable.dart';
+
+export 'src/di/app_di.dart';
+export 'package:keeper/config.dart';

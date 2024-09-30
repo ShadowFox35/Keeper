@@ -11,6 +11,15 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
 
+  core:
+    path: ./core
+  domain:
+      path: ./domain
+  data:
+    path: ./data
+  navigation:
+    path: ./navigation
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

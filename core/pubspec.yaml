@@ -21,6 +21,11 @@ dependencies:
   hive: 2.2.3
   shared_preferences: 2.3.0
 
+  keeper:
+    path: ../
+  navigation:
+    path: ../navigation
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
