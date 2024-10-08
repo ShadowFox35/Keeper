@@ -12,7 +12,6 @@ class ScannerScreen extends StatelessWidget {
       body: Center(
         child: Text(
           'ScannerScreen',
-          style: TextStyle(color: Colors.redAccent),
         ),
       ),
     );

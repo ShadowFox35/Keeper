@@ -12,7 +12,6 @@ class ProfileScreen extends StatelessWidget {
       body: Center(
         child: Text(
           'ProfileScreen',
-          style: TextStyle(color: Colors.redAccent),
         ),
       ),
     );

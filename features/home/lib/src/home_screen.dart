@@ -1,8 +1,9 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
-import 'package:settings/settings.dart';
-import 'package:scanner/scanner.dart';
 import 'package:profile/profile.dart';
+import 'package:scanner/scanner.dart';
+import 'package:settings/settings.dart';
 
 @RoutePage<String>()
 class HomeScreen extends StatelessWidget {
@@ -11,39 +12,39 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      routes: const [
+      routes: const <PageRouteInfo>[
         ProfileRoute(),
         ScannerRoute(),
         SettingsRoute(),
       ],
-      builder: (context, child) {
-        final tabsRouter = AutoTabsRouter.of(context);
+      builder: (BuildContext context, Widget child) {
+        final TabsRouter tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.limeAccent,
+            // backgroundColor: AppTheme,
             currentIndex: tabsRouter.activeIndex,
-            selectedItemColor: Colors.redAccent,
-            unselectedItemColor: Colors.amber,
+            // selectedItemColor: Colors.redAccent,
+            // unselectedItemColor: Colors.amber,
             onTap: tabsRouter.setActiveIndex,
-            items: const [
+            items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                 ),
-                label: 'Profile',
+                label: LocaleKeys.bottom_navigation_tabs_profile.tr(),
               ),
               BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.scanner_sharp,
                 ),
-                label: 'Scanner',
+                label: LocaleKeys.bottom_navigation_tabs_scanner.tr(),
               ),
               BottomNavigationBarItem(
-                icon: Icon(
+                icon: const Icon(
                   Icons.settings,
                 ),
-                label: 'Settings',
+                label: LocaleKeys.bottom_navigation_tabs_settings.tr(),
               ),
             ],
           ),

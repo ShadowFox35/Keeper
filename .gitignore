@@ -41,3 +41,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Custom
+*.lock
+ios/build
+android/build
+android/app/build
+**/*.g.dart
+**/*.gm.dart
+**/*.graphql.dart
+**/*.gr.dart
+*.env

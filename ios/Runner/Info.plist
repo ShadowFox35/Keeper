@@ -33,6 +33,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>en</string>
+		<string>ru</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

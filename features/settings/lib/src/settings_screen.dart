@@ -12,7 +12,6 @@ class SettingsScreen extends StatelessWidget {
       body: Center(
         child: Text(
           'SettingsScreen',
-          style: TextStyle(color: Colors.redAccent),
         ),
       ),
     );

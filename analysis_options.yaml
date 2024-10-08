@@ -1,6 +1,6 @@
 analyzer:
   exclude:
-    - '**/*.config.dart'
+    - '**/*.app_config.dart'
     - '**/*.freezed.dart'
     - '**/*.g.dart'
     - '**/*.gen.dart'

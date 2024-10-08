@@ -1,7 +1,23 @@
 import 'package:core/core.dart';
 
-final DataDI dataDI = DataDI();
+import 'package:data/src/errors/error_handler.dart';
 
-class DataDI {
-  Future<void> initDependencies(Flavor flavor) async {}
+abstract class DataDI {
+  static Future<void> initDependencies(GetIt appLocator) async {
+    await _initApi(appLocator);
+  }
+
+  static Future<void> _initApi(GetIt appLocator) async {
+    appLocator.registerLazySingleton<DioConfig>(
+      () => DioConfig(
+        appConfig: appLocator<AppConfig>(),
+      ),
+    );
+
+    appLocator.registerLazySingleton<ErrorHandler>(
+      () => ErrorHandler(
+        eventNotifier: appLocator<AppEventNotifier>(),
+      ),
+    );
+  }
 }

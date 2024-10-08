@@ -1,5 +1,6 @@
-import 'config.dart';
-import 'main_common.dart';
+import 'package:core/core.dart';
+
+import 'package:keeper/main_common.dart';
 
 void main() {
   mainCommon(Flavor.prod);
