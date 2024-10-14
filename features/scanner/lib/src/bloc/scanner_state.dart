@@ -1,21 +1,21 @@
 part of 'scanner_cubit.dart';
 
 class ScannerState {
-  final String imagePath;
+  final List<String> imagePathList;
 
   ScannerState({
-    required this.imagePath,
+    required this.imagePathList,
   });
 
   factory ScannerState.init() => ScannerState(
-        imagePath: '',
+        imagePathList: <String>[],
       );
 
   ScannerState copyWith({
-    String? imagePath,
+    List<String>? imagePathList,
   }) {
     return ScannerState(
-      imagePath: imagePath ?? this.imagePath,
+      imagePathList: imagePathList ?? this.imagePathList,
     );
   }
 }

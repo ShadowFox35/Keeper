@@ -23,27 +23,48 @@ class ScannerScreen extends StatelessWidget {
           ),
           child: BlocBuilder<ScannerCubit, ScannerState>(
               builder: (BuildContext context, ScannerState state) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'ScannerScreen',
-                ),
-                const SizedBox(height: 24.0),
-                if (state.imagePath.isNotEmpty)
-                  Image.file(File(state.imagePath)),
-
-                AppButton(
-                  title: 'Make Photo',
-                  onPressed:
-                      context.read<ScannerCubit>().handleAddImageFromCamera,
-                ),
-                // AppButton(
-                //   title: 'Choose Image',
-                //   onPressed:
-                //       context.read<ScannerCubit>().handleAddFilesFromStorage,
-                // ),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  if (state.imagePathList.isNotEmpty)
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: state.imagePathList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: Image.file(
+                            File(state.imagePathList[index]),
+                          ),
+                        );
+                      },
+                    ),
+                  AppButton(
+                    title: 'Make Photo',
+                    onPressed:
+                        context.read<ScannerCubit>().handleAddImageFromCamera,
+                  ),
+                  const SizedBox(height: 16.0),
+                  AppButton(
+                    title: 'Choose Image',
+                    onPressed:
+                        context.read<ScannerCubit>().handleAddFilesFromStorage,
+                  ),
+                  const SizedBox(height: 16.0),
+                  AppButton(
+                    title: 'Delete Images',
+                    onPressed: context.read<ScannerCubit>().deleteImages,
+                  ),
+                  const SizedBox(height: 16.0),
+                  AppButton(
+                    title: 'Submit',
+                    onPressed: context.read<ScannerCubit>().submitImages,
+                  ),
+                  const SizedBox(height: 16.0),
+                ],
+              ),
             );
           }),
         ),

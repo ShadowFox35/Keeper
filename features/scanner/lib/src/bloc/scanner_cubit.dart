@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
@@ -26,16 +28,13 @@ class ScannerCubit extends Cubit<ScannerState> {
 
   Future<void> _init() async {}
 
-  // Future<void> onChooseImagePressed() async {
-  //   final String imagePath =
-  //       await _chooseImageUseCase.execute(const NoPayload());
-  //
-  //   emit(
-  //     state.copyWith(
-  //       imagePath: imagePath,
-  //     ),
-  //   );
-  // }
+  Future<void> deleteImages() async {
+    emit(
+      state.copyWith(
+        imagePathList: <String>[],
+      ),
+    );
+  }
 
 //TODO refactor
   Future<void> handleAddImageFromCamera() async {
@@ -47,48 +46,69 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
 
     if (isCameraGranted) {
+      final List<String> filePathList = <String>[];
       final XFile? photo = await _imagePickerService.pickImageFromCamera();
-      emit(
-        state.copyWith(
-          imagePath: photo?.path,
-        ),
-      );
+
+      if (photo != null) {
+        filePathList.add(photo.path);
+        emit(
+          state.copyWith(
+            imagePathList: filePathList,
+          ),
+        );
+      }
     }
   }
 
-// Future<void> handleAddFilesFromStorage() async {
-//   final bool isIOS = Platform.isIOS;
-//   late final Map<Permission, PermissionStatus> permisionStatus;
-//   if (isIOS) {
-//     final PermissionProvider storageProvider = _permissionManager.storage;
-//     bool isStorageGranted = await storageProvider.status.isGranted;
-//     if (!isStorageGranted) {
-//       isStorageGranted = await storageProvider.request().isGranted;
-//     }
-//     if (isStorageGranted) {
-//       await _pickFiles();
-//     }
-//   } else {
-//     final AndroidDeviceInfo androidInfo =
-//         await DeviceInfoPlugin().androidInfo;
-//     if (androidInfo.version.sdkInt <= 32) {
-//       permisionStatus = await <Permission>[Permission.storage].request();
-//     } else {
-//       permisionStatus = await <Permission>[
-//         Permission.storage,
-//         Permission.photos,
-//         Permission.notification
-//       ].request();
-//     }
-//     bool allAccepted = true;
-//     permisionStatus.forEach((Permission key, PermissionStatus value) async {
-//       if (value != PermissionStatus.granted) {
-//         allAccepted = false;
-//       }
-//     });
-//     if (allAccepted) {
-//       await _pickFiles();
-//     }
-//   }
-// }
+//TODO refactor
+  Future<void> handleAddFilesFromStorage() async {
+    final PermissionProvider storageProvider = _permissionManager.storage;
+    bool isStorageGranted = await storageProvider.status.isGranted;
+
+    if (!isStorageGranted) {
+      isStorageGranted = await storageProvider.request().isGranted;
+    }
+
+    if (isStorageGranted) {
+      await _pickFiles();
+    }
+  }
+
+  Future<void> submitImages() async {
+    String result = await storageProvider.status.isGranted;
+  }
+
+  Future<void> _pickFiles() async {
+    final FilePickerResult? pickResult = await ImagePickerService.pickFiles();
+
+    if (pickResult == null) {
+      return;
+    }
+    final List<XFile> newFiles = _convertToXFiles(pickResult.files);
+    final List<String> filePathList = _getFilePath(newFiles);
+    emit(
+      state.copyWith(
+        imagePathList: filePathList,
+      ),
+    );
+  }
+
+//TODO maybe move to service?
+  List<XFile> _convertToXFiles(List<PlatformFile> platformFiles) {
+    return platformFiles
+        .where((PlatformFile file) => file.bytes != null)
+        .map(
+          (PlatformFile file) => XFile.fromData(
+            file.bytes!,
+            name: file.name,
+            length: file.size,
+            path: file.path,
+          ),
+        )
+        .toList();
+  }
+
+  List<String> _getFilePath(List<XFile> files) {
+    return files.map((XFile file) => file.path).toList();
+  }
 }
