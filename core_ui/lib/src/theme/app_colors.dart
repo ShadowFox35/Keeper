@@ -1,7 +1,14 @@
 part of theme;
 
 abstract class AppColors {
-  const AppColors();
+  factory AppColors.of(BuildContext context) {
+    final Brightness brightness = Theme.of(context).brightness;
+    print(brightness);
+    print('${Theme.of(context).brightness}');
+    return brightness == Brightness.light
+        ? const LightColors()
+        : const DarkColors();
+  }
 
   Color get primary;
 

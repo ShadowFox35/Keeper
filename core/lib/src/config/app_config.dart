@@ -18,7 +18,7 @@ class AppConfig {
 //TODO add urls
     switch (flavor) {
       case Flavor.dev:
-        baseUrl = 'https://';
+        baseUrl = 'https://zps67zwy7gvbnsdsaiqx6zzjcy0eecio.lambda-url.eu-central-1.on.aws';
         break;
       case Flavor.preprod:
         baseUrl = 'https://';

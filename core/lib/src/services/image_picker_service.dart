@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerService {
@@ -9,7 +10,9 @@ class ImagePickerService {
     );
   }
 
-  Future<List<XFile>> pickMultiImageFromGallery() {
-    return _picker.pickMultiImage();
+  Future<XFile?> pickImageFromStorage() {
+    return _picker.pickImage(
+      source: ImageSource.gallery,
+    );
   }
 }
