@@ -33,7 +33,7 @@ abstract class DataDI {
 
   static void _initRepositories(GetIt appLocator) {
     appLocator.registerFactory<ScannerRepository>(
-      ScannerRepositoryImpl.new,
+      () => ScannerRepositoryImpl(appLocator<ApiProvider>()),
     );
   }
 }

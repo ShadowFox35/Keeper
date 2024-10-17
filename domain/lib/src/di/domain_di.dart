@@ -7,8 +7,8 @@ abstract class DomainDI {
   }
 
   static void _initUseCases(GetIt appLocator) {
-    appLocator.registerLazySingleton<ChooseImageUseCase>(
-      () => ChooseImageUseCase(
+    appLocator.registerLazySingleton<SubmitImageUseCase>(
+      () => SubmitImageUseCase(
           scannerRepository: appLocator<ScannerRepository>()),
     );
   }

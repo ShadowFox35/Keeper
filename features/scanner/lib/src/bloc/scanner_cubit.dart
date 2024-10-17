@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:core/core.dart';
-import 'package:data/data.dart';
+import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:navigation/navigation.dart';
 
@@ -9,17 +10,17 @@ part 'scanner_state.dart';
 
 class ScannerCubit extends Cubit<ScannerState> {
   final AppRouter _appRouter;
-  final ChooseImageUseCase _chooseImageUseCase;
+  final SubmitImageUseCase _submitImageUseCase;
   final PermissionManager _permissionManager;
   final ImagePickerService _imagePickerService;
 
   ScannerCubit({
     required AppRouter appRouter,
-    required ChooseImageUseCase chooseImageUseCase,
+    required SubmitImageUseCase submitImageUseCase,
     required PermissionManager permissionManager,
     required ImagePickerService imagePickerService,
   })  : _appRouter = appRouter,
-        _chooseImageUseCase = chooseImageUseCase,
+        _submitImageUseCase = submitImageUseCase,
         _permissionManager = permissionManager,
         _imagePickerService = imagePickerService,
         super(ScannerState.init()) {
@@ -31,12 +32,11 @@ class ScannerCubit extends Cubit<ScannerState> {
   Future<void> deleteImages() async {
     emit(
       state.copyWith(
-        imagePathList: <String>[],
+        imagePath: null,
       ),
     );
   }
 
-//TODO refactor
   Future<void> handleAddImageFromCamera() async {
     final PermissionProvider cameraProvider = _permissionManager.camera;
     bool isCameraGranted = await cameraProvider.status.isGranted;
@@ -46,22 +46,19 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
 
     if (isCameraGranted) {
-      final List<String> filePathList = <String>[];
-      final XFile? photo = await _imagePickerService.pickImageFromCamera();
+      final XFile? pickResult = await _imagePickerService.pickImageFromCamera();
 
-      if (photo != null) {
-        filePathList.add(photo.path);
+      if (pickResult != null) {
         emit(
           state.copyWith(
-            imagePathList: filePathList,
+            imagePath: pickResult.path,
           ),
         );
       }
     }
   }
 
-//TODO refactor
-  Future<void> handleAddFilesFromStorage() async {
+  Future<void> handleAddImageFromStorage() async {
     final PermissionProvider storageProvider = _permissionManager.storage;
     bool isStorageGranted = await storageProvider.status.isGranted;
 
@@ -70,45 +67,36 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
 
     if (isStorageGranted) {
-      await _pickFiles();
+      await _pickImage();
     }
   }
 
   Future<void> submitImages() async {
-    String result = await storageProvider.status.isGranted;
+    TransactionEntity result = await _submitImageUseCase.execute(
+        GetTransactionInfoPayload(base64image: await _convertImageToBase64()));
   }
 
-  Future<void> _pickFiles() async {
-    final FilePickerResult? pickResult = await ImagePickerService.pickFiles();
+  Future<void> _pickImage() async {
+    final XFile? pickResult = await _imagePickerService.pickImageFromStorage();
 
-    if (pickResult == null) {
+    if (pickResult != null) {
+      emit(
+        state.copyWith(
+          imagePath: pickResult.path,
+        ),
+      );
+    } else {
       return;
     }
-    final List<XFile> newFiles = _convertToXFiles(pickResult.files);
-    final List<String> filePathList = _getFilePath(newFiles);
-    emit(
-      state.copyWith(
-        imagePathList: filePathList,
-      ),
-    );
   }
 
-//TODO maybe move to service?
-  List<XFile> _convertToXFiles(List<PlatformFile> platformFiles) {
-    return platformFiles
-        .where((PlatformFile file) => file.bytes != null)
-        .map(
-          (PlatformFile file) => XFile.fromData(
-            file.bytes!,
-            name: file.name,
-            length: file.size,
-            path: file.path,
-          ),
-        )
-        .toList();
-  }
-
-  List<String> _getFilePath(List<XFile> files) {
-    return files.map((XFile file) => file.path).toList();
+  Future<String> _convertImageToBase64() async {
+    final String? path = state.imagePath;
+    if (path == null) {
+      throw const AppException('imagePath is null');
+    }
+    final File imageFile = File(path);
+    final List<int> imageBytes = await imageFile.readAsBytes();
+    return base64Encode(imageBytes);
   }
 }

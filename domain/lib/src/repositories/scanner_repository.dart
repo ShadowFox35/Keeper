@@ -1,3 +1,5 @@
+import 'package:domain/domain.dart';
+
 abstract interface class ScannerRepository {
-  Future<String> getImage();
+  Future<TransactionEntity> getCardTransactionInfo(GetTransactionInfoPayload payload);
 }

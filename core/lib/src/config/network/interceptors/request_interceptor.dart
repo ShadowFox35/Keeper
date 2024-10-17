@@ -11,6 +11,7 @@ class RequestInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
+    options.headers.addAll(headers);
     return handler.next(options);
   }
 }

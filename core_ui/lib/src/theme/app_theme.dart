@@ -14,8 +14,10 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   ),
   scaffoldBackgroundColor: _lightColors.primary,
   textTheme: _getTextTheme(_lightColors),
+  iconTheme: _getIconTheme(_lightColors),
   primaryColor: _lightColors.accent,
   colorScheme: ColorScheme.fromSwatch().copyWith(
+    brightness: Brightness.light,
     secondary: _lightColors.accent,
     primary: _lightColors.primary,
   ),
@@ -32,8 +34,10 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   ),
   scaffoldBackgroundColor: _darkColors.primary,
   textTheme: _getTextTheme(_darkColors),
+  iconTheme: _getIconTheme(_darkColors),
   primaryColor: _darkColors.accent,
   colorScheme: ColorScheme.fromSwatch().copyWith(
+    brightness: Brightness.dark,
     secondary: _darkColors.accent,
     primary: _darkColors.primary,
   ),
@@ -45,6 +49,12 @@ AppBarTheme _getAppBarTheme(AppColors colorScheme) {
     titleTextStyle: AppFonts.montserratBold14.copyWith(
       color: colorScheme.mainText,
     ),
+  );
+}
+
+IconThemeData _getIconTheme(AppColors colorScheme) {
+  return IconThemeData(
+    color: colorScheme.primary,
   );
 }
 

@@ -23,19 +23,19 @@ class DioConfig {
   }) {
     _dio
       ..options.baseUrl = appConfig.baseUrl
-      ..interceptors.addAll(
-        <Interceptor>[
-          RequestInterceptor(_dio, headers),
-          ErrorInterceptor(_dio),
-          ResponseInterceptor(_dio),
-          dioLoggerInterceptor,
-        ],
-      );
+      ..interceptors.addAll(<Interceptor>[
+        RequestInterceptor(_dio, headers),
+        ErrorInterceptor(_dio),
+        ResponseInterceptor(_dio),
+        dioLoggerInterceptor,
+      ]);
   }
 
-  Map<String, String> headers = <String, String>{};
+  Map<String, String> headers = <String, String>{
+    ApiConstants.apiKeyHeader: ApiConstants.apiKeyValue
+  };
 
   void setToken(String? token) {
-    headers['authtoken'] = token ?? '';
+    headers[ApiConstants.apiKeyHeader] = token ?? ApiConstants.apiKeyValue;
   }
 }

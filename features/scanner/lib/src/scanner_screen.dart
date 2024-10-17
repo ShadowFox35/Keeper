@@ -17,30 +17,36 @@ class ScannerScreen extends StatelessWidget {
         child: BlocProvider<ScannerCubit>(
           create: (BuildContext context) => ScannerCubit(
             appRouter: appLocator.get(),
-            chooseImageUseCase: appLocator.get(),
+            submitImageUseCase: appLocator.get(),
             permissionManager: appLocator.get(),
             imagePickerService: appLocator.get(),
           ),
           child: BlocBuilder<ScannerCubit, ScannerState>(
               builder: (BuildContext context, ScannerState state) {
+            print('state.imagePath ${state.imagePath}');
+            print('state.imagePath ${state.imagePath == null}');
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  if (state.imagePathList.isNotEmpty)
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: state.imagePathList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Image.file(
-                            File(state.imagePathList[index]),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: state.imagePath == null
+                        ? SvgPicture.asset(
+                            AppImages.emptyScanner,
+                            height: 300.0,
+                            width: 300.0,
+                            colorFilter: ColorFilter.mode(
+                              AppColors.of(context).accent,
+                              BlendMode.srcIn,
+                            ),
+                          )
+                        : Image.file(
+                            File(state.imagePath!),
+                            height: 300.0,
+                            width: 300.0,
                           ),
-                        );
-                      },
-                    ),
+                  ),
                   AppButton(
                     title: 'Make Photo',
                     onPressed:
@@ -50,7 +56,7 @@ class ScannerScreen extends StatelessWidget {
                   AppButton(
                     title: 'Choose Image',
                     onPressed:
-                        context.read<ScannerCubit>().handleAddFilesFromStorage,
+                        context.read<ScannerCubit>().handleAddImageFromStorage,
                   ),
                   const SizedBox(height: 16.0),
                   AppButton(
