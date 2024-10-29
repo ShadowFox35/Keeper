@@ -1,11 +1,11 @@
-import 'package:data/src/models/transaction_item_model.dart';
+import 'package:data/src/models/receipt_item_model.dart';
 import 'package:domain/domain.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'transaction_model.g.dart';
+part 'receipt_model.g.dart';
 
 @JsonSerializable(createToJson: false)
-class TransactionModel {
+class ReceiptModel {
   @JsonKey(name: 'timestamp')
   final String timestamp;
   @JsonKey(name: 'counterparty')
@@ -16,29 +16,33 @@ class TransactionModel {
   final String currency;
   @JsonKey(name: 'details')
   final String details;
+  @JsonKey(name: 'total')
+  final double total;
   @JsonKey(name: 'items')
-  final List<TransactionItemModel> items;
+  final List<ReceiptItemModel> items;
 
-  TransactionModel({
+  ReceiptModel({
     required this.timestamp,
     required this.counterparty,
     required this.address,
     required this.currency,
     required this.details,
+    required this.total,
     required this.items,
   });
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      _$TransactionModelFromJson(json);
+  factory ReceiptModel.fromJson(Map<String, dynamic> json) =>
+      _$ReceiptModelFromJson(json);
 }
 
-extension TransactionModelExtension on TransactionModel {
-  TransactionEntity get toDomain => TransactionEntity(
+extension ReceiptModelExtension on ReceiptModel {
+  ReceiptEntity get toDomain => ReceiptEntity(
         timestamp: DateTime.tryParse(timestamp),
         counterparty: counterparty,
         address: address,
         currency: currency,
         details: details,
-        items: items.map((TransactionItemModel item) => item.toDomain).toList(),
+        total: total,
+        items: items.map((ReceiptItemModel item) => item.toDomain).toList(),
       );
 }

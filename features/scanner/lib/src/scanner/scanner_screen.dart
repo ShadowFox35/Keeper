@@ -4,7 +4,7 @@ import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:navigation/navigation.dart';
 
-import 'package:scanner/src/bloc/scanner_cubit.dart';
+import 'package:scanner/src/scanner/bloc/scanner_cubit.dart';
 
 @RoutePage<String>()
 class ScannerScreen extends StatelessWidget {
@@ -16,15 +16,13 @@ class ScannerScreen extends StatelessWidget {
       body: Center(
         child: BlocProvider<ScannerCubit>(
           create: (BuildContext context) => ScannerCubit(
-            appRouter: appLocator.get(),
+            appRouter: appLocator<AppRouter>(),
             submitImageUseCase: appLocator.get(),
             permissionManager: appLocator.get(),
             imagePickerService: appLocator.get(),
           ),
           child: BlocBuilder<ScannerCubit, ScannerState>(
               builder: (BuildContext context, ScannerState state) {
-            print('state.imagePath ${state.imagePath}');
-            print('state.imagePath ${state.imagePath == null}');
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -61,12 +59,12 @@ class ScannerScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   AppButton(
                     title: 'Delete Images',
-                    onPressed: context.read<ScannerCubit>().deleteImages,
+                    onPressed: context.read<ScannerCubit>().handleDeleteImages,
                   ),
                   const SizedBox(height: 16.0),
                   AppButton(
                     title: 'Submit',
-                    onPressed: context.read<ScannerCubit>().submitImages,
+                    onPressed: context.read<ScannerCubit>().handleSubmitImages,
                   ),
                   const SizedBox(height: 16.0),
                 ],

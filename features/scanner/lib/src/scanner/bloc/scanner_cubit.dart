@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:core/core.dart';
-import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:navigation/navigation.dart';
+import 'package:scanner/scanner.dart';
 
 part 'scanner_state.dart';
 
@@ -29,7 +29,7 @@ class ScannerCubit extends Cubit<ScannerState> {
 
   Future<void> _init() async {}
 
-  Future<void> deleteImages() async {
+  Future<void> handleDeleteImages() async {
     emit(
       state.copyWith(
         imagePath: null,
@@ -71,9 +71,17 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
   }
 
-  Future<void> submitImages() async {
-    TransactionEntity result = await _submitImageUseCase.execute(
-        GetTransactionInfoPayload(base64image: await _convertImageToBase64()));
+  Future<void> handleSubmitImages() async {
+    if (state.imagePath != null) {
+      try {
+        ReceiptEntity result = await _submitImageUseCase.execute(
+          GetTransactionInfoPayload(base64image: await _convertImageToBase64()),
+        );
+        await navigateToReceiptDetailsScreen(result);
+      } catch (e) {
+        print(e.toString());
+      }
+    }
   }
 
   Future<void> _pickImage() async {
@@ -98,5 +106,9 @@ class ScannerCubit extends Cubit<ScannerState> {
     final File imageFile = File(path);
     final List<int> imageBytes = await imageFile.readAsBytes();
     return base64Encode(imageBytes);
+  }
+
+  Future<void> navigateToReceiptDetailsScreen(ReceiptEntity receipt) async {
+    _appRouter.push<ReceiptEntity>(ReceiptDetailsRoute(receipt: receipt));
   }
 }

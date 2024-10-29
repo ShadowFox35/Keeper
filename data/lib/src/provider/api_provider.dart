@@ -10,6 +10,6 @@ abstract class ApiProvider {
   factory ApiProvider(Dio dio, {String? baseUrl}) = _ApiProvider;
 
   @POST(ApiConstants.parseImage)
-  Future<TransactionModel> getCardTransactionInfo(
+  Future<ReceiptModel> getCardTransactionInfo(
       @Body() GetCardTransactionInfoRequest payload);
 }

@@ -1,6 +1,5 @@
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
-import 'package:flutter/material.dart';
 import 'package:navigation/navigation.dart';
 
 class KeeperApp extends StatelessWidget {
@@ -8,7 +7,6 @@ class KeeperApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppRouter appRouter = appLocator<AppRouter>();
 
     return EasyLocalization(
       path: AppLocalization.langFolderPath,
@@ -23,8 +21,6 @@ class KeeperApp extends StatelessWidget {
             ),
             routeInformationParser:
                 appLocator.get<AppRouter>().defaultRouteParser(),
-            //TODO do we need this?
-            // routerConfig: appRouter.config(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,

@@ -1,6 +1,6 @@
 import 'package:domain/domain.dart';
 
-class SubmitImageUseCase implements FutureUseCase<TransactionEntity, GetTransactionInfoPayload> {
+class SubmitImageUseCase implements FutureUseCase<ReceiptEntity, GetTransactionInfoPayload> {
   final ScannerRepository _scannerRepository;
 
   SubmitImageUseCase({
@@ -8,7 +8,7 @@ class SubmitImageUseCase implements FutureUseCase<TransactionEntity, GetTransact
   }) : _scannerRepository = scannerRepository;
 
   @override
-  Future<TransactionEntity> execute(GetTransactionInfoPayload payload) {
+  Future<ReceiptEntity> execute(GetTransactionInfoPayload payload) {
     return _scannerRepository.getCardTransactionInfo(payload);
   }
 }

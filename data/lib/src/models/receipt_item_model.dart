@@ -1,10 +1,10 @@
 import 'package:domain/domain.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'transaction_item_model.g.dart';
+part 'receipt_item_model.g.dart';
 
 @JsonSerializable(createToJson: false)
-class TransactionItemModel extends JsonSerializable {
+class ReceiptItemModel extends JsonSerializable {
   @JsonKey(defaultValue: '')
   final String name;
   @JsonKey(defaultValue: '')
@@ -16,9 +16,9 @@ class TransactionItemModel extends JsonSerializable {
   @JsonKey(defaultValue: 0)
   final double price;
   @JsonKey(defaultValue: 0)
-  final int quantity;
+  final double quantity;
 
-  TransactionItemModel({
+  ReceiptItemModel({
     required this.name,
     required this.details,
     required this.includeInTotal,
@@ -27,13 +27,13 @@ class TransactionItemModel extends JsonSerializable {
     required this.quantity,
   });
 
-  factory TransactionItemModel.fromJson(Map<String, dynamic> json) =>
-      _$TransactionItemModelFromJson(json);
+  factory ReceiptItemModel.fromJson(Map<String, dynamic> json) =>
+      _$ReceiptItemModelFromJson(json);
 }
 
-extension TransactionItemModelExtension on TransactionItemModel {
-  TransactionItemEntity get toDomain {
-    return TransactionItemEntity(
+extension ReceiptItemModelExtension on ReceiptItemModel {
+  ReceiptItemEntity get toDomain {
+    return ReceiptItemEntity(
       name: name,
       details: details,
       includeInTotal: includeInTotal,

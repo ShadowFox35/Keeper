@@ -8,24 +8,20 @@ class ScannerRepositoryImpl implements ScannerRepository {
   final ApiProvider _apiProvider;
 
   const ScannerRepositoryImpl(this._apiProvider);
-
   @override
-  Future<TransactionEntity> getCardTransactionInfo(
+  Future<ReceiptEntity> getCardTransactionInfo(
     GetTransactionInfoPayload payload,
   ) async {
     try {
-      final TransactionModel transaction =
+      final ReceiptModel transaction =
           await _apiProvider.getCardTransactionInfo(
         GetTransactionInfoRequestMapper.fromPayload(payload),
       );
-      print('TAG transaction payload $payload');
-      print('TAG transaction provider $transaction');
       return transaction.toDomain;
     } on DioException catch (e, stackTrace) {
       print('TAG DioException transaction provider $e $stackTrace');
       return Future.error(e);
     }
 
-    // return transaction.toDomain;
   }
 }
