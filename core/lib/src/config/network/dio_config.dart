@@ -9,7 +9,7 @@ part 'interceptors/error_interceptor.dart';
 part 'interceptors/request_interceptor.dart';
 
 part 'interceptors/response_interceptor.dart';
-
+//TODO remove to data
 class DioConfig {
   final AppConfig appConfig;
   static const int timeout = 10 * 1000;
