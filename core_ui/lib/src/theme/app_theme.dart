@@ -16,6 +16,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   textTheme: _getTextTheme(_lightColors),
   iconTheme: _getIconTheme(_lightColors),
   primaryColor: _lightColors.accent,
+  cardColor: _lightColors.shadowAccent,
   colorScheme: ColorScheme.fromSwatch().copyWith(
     brightness: Brightness.light,
     secondary: _lightColors.accent,
@@ -36,6 +37,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   textTheme: _getTextTheme(_darkColors),
   iconTheme: _getIconTheme(_darkColors),
   primaryColor: _darkColors.accent,
+  cardColor: _darkColors.shadowAccent,
   colorScheme: ColorScheme.fromSwatch().copyWith(
     brightness: Brightness.dark,
     secondary: _darkColors.accent,

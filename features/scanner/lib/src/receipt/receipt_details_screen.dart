@@ -14,32 +14,6 @@ class ReceiptDetailsScreen extends StatelessWidget {
   //TODO layout
   @override
   Widget build(BuildContext context) {
-    final ReceiptEntity mock = ReceiptEntity(
-        timestamp: DateTime.now(),
-        counterparty: 'counterparty',
-        address: 'address',
-        currency: 'USD',
-        details: 'details',
-        total: 20.0,
-        items: <ReceiptItemEntity>[
-          ReceiptItemEntity(
-            name: 'name',
-            details: 'details',
-            includeInTotal: true,
-            category: 'category',
-            price: 2.0,
-            quantity: 2.0,
-          ),
-          ReceiptItemEntity(
-            name: 'name2',
-            details: 'details2',
-            includeInTotal: true,
-            category: 'category2',
-            price: 3.0,
-            quantity: 3.0,
-          )
-        ]);
-
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -47,16 +21,10 @@ class ReceiptDetailsScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: mock.items.length,
+              itemCount: receipt.items.length,
               itemBuilder: (BuildContext context, int index) {
-                final ReceiptItemEntity item = mock.items[index];
+                final ReceiptItemEntity item = receipt.items[index];
                 return ReceiptDetailsRow(
-                  onTap: () => {},
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   Routes.transactionDetails,
-                  //   arguments: transaction,
-                  // ),
                   receiptItemName: item.name,
                   receiptItemPrice: item.price,
                   receiptItemQuantity: item.quantity,

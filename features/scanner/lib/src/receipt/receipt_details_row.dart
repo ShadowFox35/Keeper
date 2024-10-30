@@ -2,7 +2,6 @@ import 'package:core_ui/core_ui.dart';
 import 'package:flutter/material.dart';
 
 class ReceiptDetailsRow extends StatelessWidget {
-  final VoidCallback onTap;
   final String receiptItemName;
   final double receiptItemPrice;
   final double receiptItemQuantity;
@@ -13,14 +12,13 @@ class ReceiptDetailsRow extends StatelessWidget {
     required this.receiptItemPrice,
     required this.receiptItemQuantity,
     required this.receiptItemDetails,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: onTap,
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
         child: Row(
@@ -28,35 +26,28 @@ class ReceiptDetailsRow extends StatelessWidget {
             Container(
               height: 36.0,
               width: 36.0,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.add),
+              child: const Icon(Icons.shopping_bag),
             ),
             const SizedBox(width: 12.0),
             Expanded(
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        receiptItemDetails,
-                      ),
-                      Text(
-                        receiptItemPrice.toString(),
-                      ),
-                    ],
+                  Text(
+                    receiptItemName,
                   ),
-                  const SizedBox(height: 6.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        receiptItemName,
-                      ),
                       Text(
                         receiptItemQuantity.toString(),
+                      ),
+                      const SizedBox(width: 12.0),
+                      Text(
+                        receiptItemPrice.toString(),
                       ),
                     ],
                   ),

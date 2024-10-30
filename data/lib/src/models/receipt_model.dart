@@ -11,11 +11,11 @@ class ReceiptModel {
   @JsonKey(name: 'counterparty')
   final String counterparty;
   @JsonKey(name: 'address')
-  final String address;
+  final String? address;
   @JsonKey(name: 'currency')
   final String currency;
   @JsonKey(name: 'details')
-  final String details;
+  final String? details;
   @JsonKey(name: 'total')
   final double total;
   @JsonKey(name: 'items')
@@ -35,13 +35,14 @@ class ReceiptModel {
       _$ReceiptModelFromJson(json);
 }
 
+//TODO handle nullable fields
 extension ReceiptModelExtension on ReceiptModel {
   ReceiptEntity get toDomain => ReceiptEntity(
         timestamp: DateTime.tryParse(timestamp),
         counterparty: counterparty,
-        address: address,
+        address: address ?? 'address unknown',
         currency: currency,
-        details: details,
+        details: details ?? 'details unknown',
         total: total,
         items: items.map((ReceiptItemModel item) => item.toDomain).toList(),
       );
