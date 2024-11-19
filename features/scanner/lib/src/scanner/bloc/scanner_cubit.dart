@@ -74,6 +74,7 @@ class ScannerCubit extends Cubit<ScannerState> {
     }
   }
 
+//TODO refactor emit state
   Future<void> handleSubmitImages() async {
     if (state.imagePath != null) {
       try {
