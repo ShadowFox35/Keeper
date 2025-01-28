@@ -2,7 +2,6 @@ import 'package:core/core.dart';
 import 'package:domain/src/entities/receipt_item_entity.dart';
 
 class ReceiptEntity extends Equatable {
-  //TODO handle null value
   final DateTime? timestamp;
   final String counterparty;
   final String address;

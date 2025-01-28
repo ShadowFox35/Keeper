@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:core/core.dart';
-import 'package:core_ui/core_ui.dart';
 import 'package:domain/domain.dart';
 import 'package:navigation/navigation.dart';
 import 'package:scanner/scanner.dart';
@@ -31,13 +30,12 @@ class ScannerCubit extends Cubit<ScannerState> {
   Future<void> _init() async {}
 
   Future<void> handleDeleteImages() async {
-    print('handleDeleteImages');
+    String? resetImagePath() => null;
     emit(
       state.copyWith(
-        imagePath: null,
+        imagePath: resetImagePath(),
       ),
     );
-    print(state.imagePath);
   }
 
   Future<void> handleAddImageFromCamera() async {
@@ -85,10 +83,10 @@ class ScannerCubit extends Cubit<ScannerState> {
           GetTransactionInfoPayload(base64image: await _convertImageToBase64()),
         );
         navigateToReceiptDetailsScreen(result);
-      } catch (e) {
-        print(e.toString());
+      } on AppException catch (e) {
+        emit(state.copyWith(errorMessage: e.message));
       } finally {
-        emit(state.copyWith(isLoading: false));
+        emit(state.copyWith(isLoading: false, resetErrorMessage: true));
       }
     }
   }
@@ -110,7 +108,7 @@ class ScannerCubit extends Cubit<ScannerState> {
   Future<String> _convertImageToBase64() async {
     final String? path = state.imagePath;
     if (path == null) {
-      throw const AppException('imagePath is null');
+      throw const AppException.imagePath();
     }
     final File imageFile = File(path);
     final List<int> imageBytes = await imageFile.readAsBytes();

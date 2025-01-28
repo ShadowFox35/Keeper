@@ -1,5 +1,4 @@
 import 'package:core/core.dart';
-import 'package:data/src/errors/error_handler.dart';
 import 'package:data/src/provider/api_provider.dart';
 import 'package:data/src/repository_impl/scanner_repository_impl.dart';
 import 'package:domain/domain.dart';
@@ -17,12 +16,6 @@ abstract class DataDI {
         appConfig: appLocator<AppConfig>(),
       ),
     );
-
-    appLocator.registerLazySingleton<ErrorHandler>(
-      () => ErrorHandler(
-        eventNotifier: appLocator<AppEventNotifier>(),
-      ),
-    );
   }
 
   static void _initProviders(GetIt appLocator) {
@@ -32,7 +25,7 @@ abstract class DataDI {
   }
 
   static void _initRepositories(GetIt appLocator) {
-    appLocator.registerFactory<ScannerRepository>(
+    appLocator.registerLazySingleton<ScannerRepository>(
       () => ScannerRepositoryImpl(appLocator<ApiProvider>()),
     );
   }

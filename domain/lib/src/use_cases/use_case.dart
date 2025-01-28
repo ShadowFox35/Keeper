@@ -1,5 +1,5 @@
 import 'package:core/core.dart';
-//TODO remove to core usecase
+
 abstract interface class UseCase<OutputT, InputT> {
   OutputT execute(InputT payload);
 }

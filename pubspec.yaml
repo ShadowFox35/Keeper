@@ -25,6 +25,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/keeper_logo.png"
+
   flutter_lints: 4.0.0
   analyzer: 6.4.1
 

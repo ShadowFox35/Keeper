@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:core/core.dart';
 import 'package:core_ui/core_ui.dart';
 import 'package:navigation/navigation.dart';
-
-import 'package:scanner/src/scanner/bloc/scanner_cubit.dart';
+import 'package:scanner/src/scanner/cubit/scanner_cubit.dart';
 
 @RoutePage<String>()
 class ScannerScreen extends StatelessWidget {
@@ -16,13 +15,24 @@ class ScannerScreen extends StatelessWidget {
       body: Center(
         child: BlocProvider<ScannerCubit>(
           create: (BuildContext context) => ScannerCubit(
-            appRouter: appLocator<AppRouter>(),
+            appRouter: appLocator.get(),
             submitImageUseCase: appLocator.get(),
             permissionManager: appLocator.get(),
             imagePickerService: appLocator.get(),
           ),
-          child: BlocBuilder<ScannerCubit, ScannerState>(
-              builder: (BuildContext context, ScannerState state) {
+          child: BlocConsumer<ScannerCubit, ScannerState>(listener: (
+            BuildContext context,
+            ScannerState state,
+          ) {
+            final String? message = state.errorMessage;
+            if (message != null) {
+              MainPopup.showPopup(
+                context: context,
+                message: message,
+                isSuccess: false,
+              );
+            }
+          }, builder: (BuildContext context, ScannerState state) {
             return SingleChildScrollView(
               child: state.isLoading
                   ? const AppLoader()
@@ -55,14 +65,12 @@ class ScannerScreen extends StatelessWidget {
                         const SizedBox(height: 16.0),
                         AppButton(
                           title: 'Submit',
-                          onPressed:
-                              context.read<ScannerCubit>().handleSubmitImages,
+                          onPressed: context.read<ScannerCubit>().handleSubmitImages,
                         ),
                         const SizedBox(height: 16.0),
                         AppButton(
                           title: 'Delete Images',
-                          onPressed:
-                              context.read<ScannerCubit>().handleDeleteImages,
+                          onPressed: context.read<ScannerCubit>().handleDeleteImages,
                         ),
                         const SizedBox(height: 16.0),
                       ],
@@ -83,10 +91,8 @@ class ScannerScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) => AppBottomSheetWidget(
-        onCameraPressed: () => closeBottomSheetAnd(
-            () => context.read<ScannerCubit>().handleAddImageFromCamera()),
-        onStoragePressed: () => closeBottomSheetAnd(
-            () => context.read<ScannerCubit>().handleAddImageFromStorage()),
+        onCameraPressed: () => closeBottomSheetAnd(() => context.read<ScannerCubit>().handleAddImageFromCamera()),
+        onStoragePressed: () => closeBottomSheetAnd(() => context.read<ScannerCubit>().handleAddImageFromStorage()),
       ),
     );
   }

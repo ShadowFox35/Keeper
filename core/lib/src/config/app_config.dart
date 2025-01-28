@@ -15,7 +15,6 @@ class AppConfig {
 
   factory AppConfig.fromFlavor(Flavor flavor) {
     String baseUrl;
-//TODO add urls
     switch (flavor) {
       case Flavor.dev:
         baseUrl = 'https://zps67zwy7gvbnsdsaiqx6zzjcy0eecio.lambda-url.eu-central-1.on.aws';

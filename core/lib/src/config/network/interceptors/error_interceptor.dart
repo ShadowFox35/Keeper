@@ -30,21 +30,17 @@ class ErrorInterceptor extends Interceptor {
         }
         break;
       case DioExceptionType.connectionError:
-        // TODO: Handle this case.
         break;
       case DioExceptionType.badCertificate:
-        // TODO: Handle this case.
         break;
       case DioExceptionType.unknown:
-        // TODO: Handle this case.
         break;
     }
 
     if (err.response?.statusCode != 401) {
       return handler.next(err);
     }
-    final Response<dynamic> response =
-        err.response ?? Response<dynamic>(requestOptions: err.requestOptions);
+    final Response<dynamic> response = err.response ?? Response<dynamic>(requestOptions: err.requestOptions);
     return handler.resolve(response);
   }
 

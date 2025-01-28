@@ -22,10 +22,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           body: child,
           bottomNavigationBar: BottomNavigationBar(
-            // backgroundColor: AppTheme,
             currentIndex: tabsRouter.activeIndex,
-            // selectedItemColor: Colors.redAccent,
-            // unselectedItemColor: Colors.amber,
             onTap: tabsRouter.setActiveIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(

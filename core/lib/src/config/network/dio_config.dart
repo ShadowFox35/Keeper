@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:core/core.dart';
 import 'package:core/src/config/network/interceptors/dio_log_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
 part 'interceptors/error_interceptor.dart';
 
 part 'interceptors/request_interceptor.dart';
 
 part 'interceptors/response_interceptor.dart';
-//TODO remove to data
+
 class DioConfig {
   final AppConfig appConfig;
   static const int timeout = 10 * 1000;
@@ -31,9 +32,7 @@ class DioConfig {
       ]);
   }
 
-  Map<String, String> headers = <String, String>{
-    ApiConstants.apiKeyHeader: ApiConstants.apiKeyValue
-  };
+  Map<String, String> headers = <String, String>{ApiConstants.apiKeyHeader: ApiConstants.apiKeyValue};
 
   void setToken(String? token) {
     headers[ApiConstants.apiKeyHeader] = token ?? ApiConstants.apiKeyValue;

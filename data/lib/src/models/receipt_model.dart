@@ -31,11 +31,9 @@ class ReceiptModel {
     required this.items,
   });
 
-  factory ReceiptModel.fromJson(Map<String, dynamic> json) =>
-      _$ReceiptModelFromJson(json);
+  factory ReceiptModel.fromJson(Map<String, dynamic> json) => _$ReceiptModelFromJson(json);
 }
 
-//TODO handle nullable fields
 extension ReceiptModelExtension on ReceiptModel {
   ReceiptEntity get toDomain => ReceiptEntity(
         timestamp: DateTime.tryParse(timestamp),

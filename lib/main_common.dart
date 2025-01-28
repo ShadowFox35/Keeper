@@ -9,18 +9,15 @@ import 'package:keeper/keeper_app.dart';
 import 'package:navigation/navigation.dart';
 
 Future<void> mainCommon(Flavor flavor) async {
-  await runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await EasyLocalization.ensureInitialized();
-    await _setupDI(flavor);
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await _setupDI(flavor);
 
-    runApp(const KeeperApp());
-  }, (Object object, StackTrace stackTrace) {});
+  runApp(const KeeperApp());
 }
 
 Future<void> _setupDI(Flavor flavor) async {
   appLocator.pushNewScope(
-    scopeName: unauthScope,
     init: (_) async {
       AppDI.initDependencies(appLocator, flavor);
       await DataDI.initDependencies(appLocator);
@@ -31,4 +28,3 @@ Future<void> _setupDI(Flavor flavor) async {
 
   await appLocator.allReady();
 }
-

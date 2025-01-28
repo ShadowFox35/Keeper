@@ -10,8 +10,6 @@ class ResponseInterceptor extends Interceptor {
     Response<dynamic> response,
     ResponseInterceptorHandler handler,
   ) async {
-    //TODO: TEMPORARY SOLUTION DELETE ONCE NEW IMPLEMENTED
-    // Logger.responseLogger(response);
     handler.next(response);
   }
 }

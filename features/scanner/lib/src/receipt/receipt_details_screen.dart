@@ -11,7 +11,6 @@ class ReceiptDetailsScreen extends StatelessWidget {
     required this.receipt,
   });
 
-  //TODO layout
   @override
   Widget build(BuildContext context) {
     return Scaffold(
