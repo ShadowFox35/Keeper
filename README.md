@@ -1,7 +1,13 @@
 # keeper
 
-A Budget keeper project.
+A Budget Keeper project.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
+
+### Setup
+
+1. Run `flutter pub get` to fetch dependencies.
+2. In Data, Navigation and Feature modules run `dart run build_runner build --delete-conflicting-outputs` to generate necessary files.
+3. In Core run `dart run easy_localization:generate -f keys -o locale_keys.g.dart -O lib/src/localization/generated -S resources/lang` to generate localization files.
