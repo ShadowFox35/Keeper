@@ -6,10 +6,10 @@ packages:
   - data
   - domain
   - navigation
-  - feature/home
-  - feature/profile
-  - feature/scanner
-  - feature/settings
+  - features/home
+  - features/profile
+  - features/scanner
+  - features/settings
 
 scripts:
   clean:
