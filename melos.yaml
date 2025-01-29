@@ -28,7 +28,7 @@ scripts:
   build_runner:
     melos exec --scope="data" -- dart run build_runner build --delete-conflicting-outputs &&
     melos exec --scope="navigation" -- dart run build_runner build --delete-conflicting-outputs &&
-    melos exec --scope="feature/*" -- dart run build_runner build --delete-conflicting-outputs
+    melos exec --scope="features/*" -- dart run build_runner build --delete-conflicting-outputs
 
   generate_localization:
     melos exec --scope="core" -- flutter pub run easy_localization:generate -h &&
